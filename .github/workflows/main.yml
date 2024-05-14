@@ -28,6 +28,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Project path
+        run: cd ./docs
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -39,8 +41,6 @@ jobs:
           cache: npm # or pnpm / yarn
       - name: Setup Pages
         uses: actions/configure-pages@v4
-      - name: Setup Project path
-        run: cd ./docs
       - name: Install dependencies
         run: npm ci # or pnpm install / yarn install / bun install
       - name: Build with VitePress
