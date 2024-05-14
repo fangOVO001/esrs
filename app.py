@@ -177,27 +177,27 @@ def api_contents():
         })
     return {'contents': result, 'status': 'success'}
 
-@app.route('/api/favorites', methods=['GET'])
+@app.route('/api/favorites', methods=['POST'])
 def api_favorites():
-    favorites = Favorite.query.all()
+    email = request.json['email']
+    favorites = db_session.query(Favorite).filter_by(email=email).all()
     result = []
     for favorite in favorites:
         result.append({
             'id': favorite.id,
-            'user_id': favorite.user_id,
+            'email': email,
             'content_id': favorite.content_id
         })
     return {'favorites': result, 'status': 'success'}
 
 @app.route('/api/favorite', methods=['POST'])
 def api_favorite():
-    user_id = request.json['user_id']
+    email = request.json['email']
     content_id = request.json['content_id']
-    favorite = Favorite(user_id, content_id)
+    favorite = Favorite(email, content_id)
     db_session.add(favorite)
     db_session.commit()
     return { 'status': 'success' }
-
 
 @app.cli.command('init_db')
 def initdb_command():

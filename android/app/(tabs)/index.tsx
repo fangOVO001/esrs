@@ -14,7 +14,7 @@ export default function HomeScreen() {
       }).catch((error) => {
         console.error(error)
       });
-  })
+  }, [])
 
   return (
     <ParallaxScrollView
@@ -26,9 +26,9 @@ export default function HomeScreen() {
         />
       }>
         {
-          content.map((item) => {
+          content.map((item, index) => {
             return (
-              <View style={styles.card}>
+              <View style={styles.card} key={index}>
                 <Text style={styles.title}>{item.title}</Text>
               </View>
             )

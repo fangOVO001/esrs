@@ -2,12 +2,50 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Image, Platform, TextInput, View, Pressable, Alert, Text } from 'react-native';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function TabTwoScreen() {
   const [loginStatus, setLoginStatus] = useState(false);
   const [email, setEmail] =  useState("");
   const [password,setPassword] =  useState("");
+  const [contents, setContents] = useState<Array<any>>([]);
+  const [favorites, setFavorites] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    fetch('http://10.0.2.2:5000/api/contents')
+      .then((response) => response.json())
+      .then((json) => {
+        setContents(json.contents);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    if (email !== "" && loginStatus) {
+      console.log(email)
+      fetch('http://10.0.2.2:5000/api/favorites', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          setFavorites(json.favorites.map((item:any) => {
+            const content = contents.find((content) => content.content_id === item.content_id);
+            return {
+              content_id: item.content_id,
+              title: content.title
+            };
+          }));
+        })
+        .catch((error) => {
+          // console.error(error);
+        });
+    }
+  }, [loginStatus]);
 
   return (
     <ParallaxScrollView
@@ -54,25 +92,37 @@ export default function TabTwoScreen() {
       </View>
       </View>: <View>
           <Text style={styles.title}>My Favorite</Text>
+          {favorites.map((item, index) => {
+            return (
+              <View style={styles.card} key={index}>
+                <Text style={styles.title}>{item.content_id}</Text>
+              </View>
+            );
+          })}
         </View>}
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    margin: 20,
+    alignItems: 'center',
+    borderColor: '#000',
+    borderWidth: 1,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   headerImage: {
     color: '#808080',
     bottom: -90,
     left: -35,
     position: 'absolute',
-  },
-  title : {
-    fontSize : 30,
-    fontWeight : "bold",
-    textTransform : "uppercase",
-    textAlign: "center",
-    paddingVertical : 40,
-    color : "red"
   },
   titleContainer: {
     flexDirection: 'row',
