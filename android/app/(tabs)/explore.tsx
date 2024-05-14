@@ -33,8 +33,9 @@ export default function TabTwoScreen() {
       })
         .then((response) => response.json())
         .then((json) => {
+          console.log(contents)
           setFavorites(json.favorites.map((item:any) => {
-            const content = contents.find((content) => content.content_id === item.content_id);
+            const content = contents.find((c) => c.id === item.content_id);
             return {
               content_id: item.content_id,
               title: content.title
@@ -95,7 +96,7 @@ export default function TabTwoScreen() {
           {favorites.map((item, index) => {
             return (
               <View style={styles.card} key={index}>
-                <Text style={styles.title}>{item.content_id}</Text>
+                <Text style={styles.title}>{item.title}</Text>
               </View>
             );
           })}

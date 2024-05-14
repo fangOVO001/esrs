@@ -171,6 +171,7 @@ def api_contents():
     result = []
     for content in contents:
         result.append({
+            'id': content.id,
             'title': content.title,
             'content': content.content,
             'from_url': content.from_url
