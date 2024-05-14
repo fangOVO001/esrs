@@ -1,0 +1,8 @@
+venv
+node_models
+.DS_*
+*.pyc
+__pycache__
+cache
+*.log
+dist

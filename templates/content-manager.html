@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <form method="POST" action="/content-manager">
+    <table id="data" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>From URL</th>
+            <th>Active</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for content in contents %}
+        <tr>
+            <td>{{ content.id }}</td>
+            <td>{{ content.title }}</td>
+            <td>{{ content.category }}</td>
+            <td><a href="{{ content.from_url }}" target="_blank">{{ content.from_url }}</a></td>
+            <td>
+                {% if email == 'admin@admin.com'%}
+                <button type="submit" name="deleteContentId" value="{{ content.id }}">
+                    Delete
+                </button>
+                {% else %}
+                <button type="submit" name="favoriteContentId" value="{{ content.id }}">
+                    Favorite
+                </button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</form>
+</div>
+{% endblock %}

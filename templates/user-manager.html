@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+  <form method="POST" action="/user-manager">
+    <table id="data" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Active</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.email }}</td>
+            <td>
+                {% if user.email != 'admin@admin.com' %}
+                <button type="submit" name="deleteEmail" value="{{ user.email }}">
+                    Delete
+                </button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</form>
+</div>
+{% endblock %}
