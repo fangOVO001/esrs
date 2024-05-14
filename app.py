@@ -39,7 +39,7 @@ def login():
         if user.password == hash_password:
             session['email'] = email
             return redirect(url_for('index'))
-    return render_template('login.html', type=None)
+    return render_template('login.html', type="login")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -76,8 +76,8 @@ def logout():
 def index():
     return render_template(
         'index.html',
-        email=session.get('email'),
-        type=session.get('type')
+        type=session.get('email'),
+        email=session.get('email')
     )
 
 @app.route('/user-manager', methods=['GET', 'POST'])
