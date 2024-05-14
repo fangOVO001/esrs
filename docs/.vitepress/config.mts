@@ -4,6 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Recommand Shopping Develop Log",
   description: "Develop Blog",
+  base: "/esrs",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
