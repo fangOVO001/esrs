@@ -28,8 +28,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Project path
-        run: cd ./docs
       - name: Checkout
         uses: actions/checkout@v4
         with:
