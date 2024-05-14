@@ -171,10 +171,9 @@ def api_contents():
     result = []
     for content in contents:
         result.append({
-            'id': content.id,
             'title': content.title,
             'content': content.content,
-            'created_at': content.created_at
+            'from_url': content.from_url
         })
     return {'contents': result, 'status': 'success'}
 
