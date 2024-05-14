@@ -125,7 +125,15 @@ def favorite_manager():
     if not session or not session['email']:
         return redirect(url_for('login'))
     contents = db_session.query(Favorite).filter_by(email=session['email']).all()
-    return render_template('favorite-manager.html', email=session['email'], contents=contents)
+    result = []
+    for content in contents:
+        result.append({
+            'id': content.id,
+            'email': session['email'],
+            'content_id': content.content_id,
+            'title': db_session.query(Content).filter_by(id=content.content_id).first().title
+        })
+    return render_template('favorite-manager.html', email=session['email'], contents=result)
 
 # =============================================
 # ==================== API ====================
